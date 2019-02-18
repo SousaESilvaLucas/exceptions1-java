@@ -6,7 +6,7 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.Scanner;
 
-import entities.Reservation;
+import model.entities.Reservation;
 
 public class ExHotel {
 
@@ -35,18 +35,14 @@ public class ExHotel {
 			checkIn = sdf.parse(sc.next());
 			System.out.print("Check-out date (dd/MM/yyyy): ");
 			checkOut = sdf.parse(sc.next());
-			
-			 Date today = new Date();
-			if (!checkIn.after(today) || !checkOut.after(today)) {
-				System.out.println("Error in reservation: Reservation dates for update must be future dates");
-			}
-			else if (!checkOut.after(checkIn)) {
-				System.out.println("Error in reservation: Check-out date must be after check-in date");
+			String errorMessage = reservation.updateDates(checkIn, checkOut);
+			if (errorMessage != null) {
+				System.out.println(errorMessage);
 			}
 			else {
-				reservation.updateDates(checkIn, checkOut);
-				System.out.println(reservation.toString());	
+				System.out.println(reservation.toString());		
 			}
+
 		}
 		
 		sc.close();

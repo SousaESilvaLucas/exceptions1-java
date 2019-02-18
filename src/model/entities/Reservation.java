@@ -1,4 +1,4 @@
-package entities;
+package model.entities;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -41,9 +41,19 @@ public class Reservation {
 		return (int) ((checkOut.getTime() - checkIn.getTime())/(24*60*60*1000));
 	}
 	
-	public void updateDates(Date checkIn, Date checkOut) {
-		this.checkIn = checkIn;
-		this.checkOut = checkOut;
+	public String updateDates(Date checkIn, Date checkOut) {
+		Date today = new Date();
+		if (!checkIn.after(today) || !checkOut.after(today)) {
+			return ("Error in reservation: Reservation dates for update must be future dates");
+		}
+		else if (!checkOut.after(checkIn)) {
+			return ("Error in reservation: Check-out date must be after check-in date");
+		}
+		else {
+			this.checkIn = checkIn;
+			this.checkOut = checkOut;
+			return null;
+		}
 	}
 
 	@Override
